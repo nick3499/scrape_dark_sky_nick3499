@@ -41,8 +41,8 @@ The module documentation is stored in the `__doc__` string.
 
 ```python
 from datetime import datetime
+from datetime import timedelta
 from bs4 import BeautifulSoup
-from dateutil.relativedelta import *
 from requests import get
 from figlet import get_figlet
 ```
@@ -155,15 +155,14 @@ Finally, two lines are printed for today's and this weeks forecast.
 for i in range(0, 8):
     min_temp = SOUP.find('a', {'data-day': str(i)}).contents[3].contents[1].string
     max_temp = SOUP.find('a', {'data-day': str(i)}).contents[3].contents[5].string
-    day_delta = datetime.now()+relativedelta(days=+i)
-    day_str = day_delta.strftime('%a')
+    weekday_str = (datetime.now() + timedelta(days=i)).strftime('%a')
     wthr_day = SOUP.find(
         'a', {'data-day': str(i)}).contents[1].find(
             'span', {'class': 'skycon'}).img['alt'].split(' ')[0].replace(
-                '-', ' ')
-    print(f" {THEME['c2']}{day_str:<5}{THEME['rset']}{THEME['c3']}{'L':<2}\
+                '-', ' ')  # condition
+    print(f" {THEME['c2']}{weekday_str:<5}{THEME['rset']}{THEME['c3']}{'L':<2}\
 {THEME['rset']}{min_temp:<5}{THEME['c3']}{'H':<2}{THEME['rset']}{max_temp:<5}\
-{wthr_day}")
+{wthr_day}")  # print temps/conditions
 ```
 
 The `for` loop above is used to print 8 lines of forecast temps along with general forecast descriptions (based on img alt text).
@@ -175,14 +174,10 @@ SOUP.find('a', {'data-day': str(i)}).contents[3].contents[1].string
 The instruction above navigates through tags with `data-day` class to get the minor temp string, e.g. `'42°'`.
 
 ```python
-datetime.now()+relativedelta(days=+i)
+(datetime.now() + timedelta(days=i)).strftime('%a')
 ```
 
-```python
-day_delta.strftime('%a')
-```
-
-`relativedelta(days=+i)` comes from the `datetime` module's supplemental `dateutil` module which helps with time deltas. In this case, it is used to iteratively advance the abbreviated weekday by one day with each iteration, e.g. `Mon`, `Tue`, `Wed`, etc. `day_delta.strftime('%a')` returns abbreviated weekday strings. Or, if a user wants the full weekday string, they can use `day_delta.strftime('%A')`.
+Within its looping structure, `(datetime.now() + timedelta(days=i)).strftime('%a')` iteratively advances the abbreviated weekday by one day with each iteration, e.g. `Mon`, `Tue`, `Wed`, etc.
 
 ```python
 SOUP.find('a', {'data-day': str(i)}).contents[1].find('span', {'class': 'skycon'}).img['alt'].split(' ')[0].replace('-', ' ')
