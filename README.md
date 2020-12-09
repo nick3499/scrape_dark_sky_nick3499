@@ -89,7 +89,7 @@ The `requests.get()` method gets the HTML data from [Dark Sky](https://darksky.n
 SOUP = BeautifulSoup(REQ.text, 'html5lib')
 ```
 
-The instruction above instantiates [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#quick-start). `REQ.text` is the HTML markup code and `'html5lib'` is a Python HTML parsing module.
+The instruction above instantiates [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/#quick-start). `REQ.text` is the requested HTML markup code and `'html5lib'` is a Python HTML parsing module.
 
 ## 3-Color Theme
 
@@ -101,7 +101,7 @@ THEME = {
     'rset': '\x1b[0m'}  # 3-color theme; `rset` resets color to default
 ```
 
-The string-formatting strings above establish a 3-color theme. For example, `'{THEME['c2']}{s1[0]:<12}{THEME['rset']}'` sets the color of the `'Current'` string.
+The escaped strings above are for string-formatting, and they establish a 3-color theme. For example, `'{THEME['c2']}{s1[0]:<12}{THEME['rset']}'` sets the color of the `'Current'` string.
 
 ## Titles
 
@@ -182,7 +182,7 @@ datetime.now()+relativedelta(days=+i)
 day_delta.strftime('%a')
 ```
 
-`relativedelta(days=+i)` comes from the `datetime` module's supplemental `dateutil` module which helps with time deltas. In this case, it is used to iteratively advance the abbreviated weekday by one day with each iteration, e.g. `Mon`, `Tue`, `Wed`, etc. `day_delta.strftime('%a')` returns abbreviated weekday strings.
+`relativedelta(days=+i)` comes from the `datetime` module's supplemental `dateutil` module which helps with time deltas. In this case, it is used to iteratively advance the abbreviated weekday by one day with each iteration, e.g. `Mon`, `Tue`, `Wed`, etc. `day_delta.strftime('%a')` returns abbreviated weekday strings. Or, if a user wants the full weekday string, they can use `day_delta.strftime('%A')`.
 
 ```python
 SOUP.find('a', {'data-day': str(i)}).contents[1].find('span', {'class': 'skycon'}).img['alt'].split(' ')[0].replace('-', ' ')
