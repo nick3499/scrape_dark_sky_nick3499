@@ -3,7 +3,7 @@
 Review DarkSky's TOS darksky.net/tos'''
 from datetime import datetime
 from bs4 import BeautifulSoup
-from dateutil.relativedelta import *
+from datetime import timedelta
 from requests import get
 from figlet import get_figlet
 
@@ -55,13 +55,12 @@ print(f" {THEME['c1']}Forecast:{THEME['rset']}")  # weekly forecast; temps/condi
 for i in range(0, 8):
     min_temp = SOUP.find('a', {'data-day': str(i)}).contents[3].contents[1].string
     max_temp = SOUP.find('a', {'data-day': str(i)}).contents[3].contents[5].string
-    day_delta = datetime.now()+relativedelta(days=+i)
-    day_str = day_delta.strftime('%a')  # abbreviated day name str
+    weekday_str = (datetime.now() + timedelta(days=i)).strftime('%a')
     wthr_day = SOUP.find(
         'a', {'data-day': str(i)}).contents[1].find(
             'span', {'class': 'skycon'}).img['alt'].split(' ')[0].replace(
                 '-', ' ')  # condition
-    print(f" {THEME['c2']}{day_str:<5}{THEME['rset']}{THEME['c3']}{'L':<2}\
+    print(f" {THEME['c2']}{weekday_str:<5}{THEME['rset']}{THEME['c3']}{'L':<2}\
 {THEME['rset']}{min_temp:<5}{THEME['c3']}{'H':<2}{THEME['rset']}{max_temp:<5}\
 {wthr_day}")  # print temps/conditions
 
