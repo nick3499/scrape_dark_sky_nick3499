@@ -1,4 +1,7 @@
 # scrape_dark_sky_nick3499
+
+## Darksky API will no longer be available after December 31st 2022.
+
 Scrape weather data: Python, BeautifulSoup, requests, datetime, dateutil.relativedelta
 
 ![screen capture](screen_capture.png)
